@@ -60,4 +60,13 @@ userRouter.post("/login", async (req, res) => {
 	}
 });
 
+userRouter.post("/logout", (req, res) => {
+	try {
+		res.cookie("token", "", { expires: new Date(Date.now()) });
+		res.json({ status: 1, message: "Logout successfully" });
+	} catch (err) {
+		res.status(400).json({ error: err.message });
+	}
+});
+
 module.exports = userRouter;

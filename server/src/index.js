@@ -4,6 +4,7 @@ const mongoDBConnect = require("./config/database");
 const userRouter = require("./routes/user");
 const transactionRouter = require("./routes/transaction");
 const cookieParser = require("cookie-parser");
+const budgetRouter = require("./routes/budget");
 
 const app = express();
 app.use(express.json());
@@ -12,6 +13,7 @@ const PORT = 5000;
 
 app.use("/", userRouter);
 app.use("/transaction", transactionRouter);
+app.use("/budget", budgetRouter);
 
 mongoDBConnect()
 	.then(() => {

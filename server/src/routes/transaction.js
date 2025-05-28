@@ -55,7 +55,6 @@ transactionRouter.patch("/edit/:transactionId", userAuth, async (req, res) => {
 			}
 		});
 
-		console.log(updateData);
 		const updatedTransaction = await Transaction.findOneAndUpdate(
 			{ _id: transactionId, userId: userId },
 			updateData,
@@ -105,5 +104,70 @@ transactionRouter.delete(
 		}
 	}
 );
+
+//Get all the transactions for the loggedin user
+
+transactionRouter.get("/all", userAuth, async (req, res) => {
+	try {
+		const loggedinUser = req.user;
+
+		const allTransactionsByUser = await Transaction.find({
+			userId: loggedinUser._id,
+		});
+
+		res.json({
+			status: 1,
+			message: "Transactions fetched successfully",
+			data: allTransactionsByUser,
+		});
+	} catch (err) {
+		res.status(400).json({ error: err.message });
+	}
+});
+
+//Get summary
+transactionRouter.get("/summary", userAuth, async (req, res) => {
+	try {
+		const loggedinUser = req.user;
+
+		const month = req.query.month; //YYYY-MM
+		const [year, monthIndex] = month.split("-").map(Number);
+
+		const curreDate = new Date(Date.now());
+		const currMonth = curreDate.getMonth() + 1;
+
+		let endDate = new Date();
+		const startDate = new Date(year, monthIndex - 1, 2);
+
+		if (monthIndex === currMonth) {
+			endDate = new Date(year, monthIndex - 1, curreDate.getDate() + 1);
+		} else {
+			endDate = new Date(year, monthIndex, 1);
+		}
+
+		const transactions = await Transaction.find({
+			userId: loggedinUser._id,
+			date: { $gte: startDate, $lte: endDate },
+		});
+
+		const totalIncome = transactions
+			.filter((t) => t.type === "income")
+			.reduce((sum, t) => (sum = sum + t.amount), 0);
+
+		const totalExpense = transactions
+			.filter((t) => t.type === "expense")
+			.reduce((sum, t) => (sum = sum + t.amount), 0);
+
+		const balance = totalIncome - totalExpense;
+
+		res.json({
+			status: 1,
+			message: "Transactions summary fetched successfully",
+			summary: { month, totalIncome, totalExpense, balance },
+		});
+	} catch (err) {
+		res.status(400).json({ error: err.message });
+	}
+});
 
 module.exports = transactionRouter;
