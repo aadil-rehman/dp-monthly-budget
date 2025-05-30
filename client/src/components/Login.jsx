@@ -25,7 +25,7 @@ const Login = () => {
 
 			if (res.data.status === 1) {
 				dispatch(addUser(res?.data?.data));
-				navigate("/dashboard");
+				window.location.href = "/dashboard";
 			}
 		} catch (error) {
 			console.error("Login error:", error);
