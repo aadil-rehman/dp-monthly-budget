@@ -85,9 +85,11 @@ cd dp-monthly-budget
 
 # Start the backend
 
-- cd server
-- npm install
-- npm start
+```bash
+cd server
+npm install
+npm start
+```
 
 - Create a .env file inside server/ with the following contents:
 
@@ -97,9 +99,11 @@ cd dp-monthly-budget
 
 # Start the Frontend
 
-- cd client
-- npm install
-- npm run dev
+```bash
+cd client
+npm install
+npm run dev
+```
 
 - Create a .env file inside client/ with the following contents:
 
