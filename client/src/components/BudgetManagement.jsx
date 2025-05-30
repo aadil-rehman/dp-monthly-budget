@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import BudgetDialog from "./BudgetDialog";
+import Loader from "./Loader";
 
 const BudgetManagement = () => {
 	const [summary, setSummary] = useState(null);
@@ -16,9 +17,11 @@ const BudgetManagement = () => {
 	const chartRef = useRef();
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [refreshBudget, setRefreshBudget] = useState(false);
+	const [isLoading, setIsloading] = useState(false);
 
 	useEffect(() => {
 		const fetchSummary = async () => {
+			setIsloading(true);
 			try {
 				const res = await axios.get(
 					`${BASE_URL}/budget/fetch?month=${selectedMonth}`,
@@ -27,8 +30,10 @@ const BudgetManagement = () => {
 					}
 				);
 				setSummary(res?.data?.data);
+				setIsloading(false);
 			} catch (err) {
 				console.error("Failed to fetch budget summary:", err);
+				setIsloading(false);
 			}
 		};
 		setRefreshBudget(false);
@@ -121,8 +126,9 @@ const BudgetManagement = () => {
 					className="input input-bordered w-52 !outline-0"
 				/>
 			</div>
-
-			{summary ? (
+			{isLoading ? (
+				<Loader />
+			) : summary ? (
 				<div className="flex justify-center gap-4 mb-8">
 					<div className="card bg-green-100 text-green-800 p-4 rounded-xl shadow-md">
 						<h3 className="font-semibold">Monthly Budget</h3>

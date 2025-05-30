@@ -33,6 +33,7 @@ const TransactionManagement = () => {
 	useEffect(() => {
 		setIsLoading(true);
 		const fetchAllTransactions = async () => {
+			setIsLoading(true);
 			try {
 				const params = new URLSearchParams();
 
@@ -53,8 +54,10 @@ const TransactionManagement = () => {
 
 				setTransactions(res?.data?.data);
 				setTotalTransactions(res?.data?.pagination.total);
+				setIsLoading(false);
 			} catch (err) {
 				console.error(err);
+				setIsLoading(false);
 			}
 		};
 		setIsLoading(false);
