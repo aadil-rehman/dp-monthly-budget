@@ -93,9 +93,11 @@ npm start
 
 - Create a .env file inside server/ with the following contents:
 
-- PORT=5000
-- MONGO_URI=your-mongodb-connection-string
-- JWT_SECRET=your-jwt-secret
+```bash
+PORT=5000
+MONGO_URI=your-mongodb-connection-string
+JWT_SECRET=your-jwt-secret
+```
 
 # Start the Frontend
 
