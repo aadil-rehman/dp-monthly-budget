@@ -50,8 +50,12 @@ userRouter.post("/login", async (req, res) => {
 			});
 			//2. add token to cookie
 			res.cookie("token", token, {
+				httpOnly: true,
+				secure: true,
+				sameSite: "None", // allow cross-site
 				expires: new Date(Date.now() + 8 * 3600000),
 			});
+
 			res.json({ status: 1, message: "Login successfull!", data: user });
 		} else {
 			throw new Error("Invalid crednetials");
@@ -78,7 +82,12 @@ userRouter.get("/profile", userAuth, (req, res) => {
 userRouter.post("/logout", (req, res) => {
 	try {
 		res
-			.cookie("token", null, { expires: new Date(Date.now()) })
+			.cookie("token", null, {
+				httpOnly: true,
+				secure: true,
+				sameSite: "None",
+				expires: new Date(Date.now()),
+			})
 			.json({ status: 1, message: "Logout successfully" });
 	} catch (err) {
 		res.status(400).json({ error: err.message });

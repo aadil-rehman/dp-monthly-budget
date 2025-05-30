@@ -25,6 +25,7 @@ const Login = () => {
 
 			if (res.data.status === 1) {
 				dispatch(addUser(res?.data?.data));
+				setTimeout(() => navigate("/dashboard"), 300); // small delay
 				navigate("/dashboard");
 			}
 		} catch (error) {
