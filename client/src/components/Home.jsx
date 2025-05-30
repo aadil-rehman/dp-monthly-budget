@@ -1,14 +1,20 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Home = () => {
 	const navigate = useNavigate();
+	const user = useSelector((store) => store.user);
 
 	useEffect(() => {
-		navigate("/dashboard");
-	}, [navigate]);
+		if (user) {
+			navigate("/dashboard");
+		} else {
+			navigate("/login");
+		}
+	}, [user, navigate]);
 
-	return null; // or a loading spinner if you prefer
+	return null;
 };
 
 export default Home;
