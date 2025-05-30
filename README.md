@@ -29,7 +29,7 @@ This Personal Budget Tracker allows authenticated users to:
 
 - **React.js** – Core UI framework
 - **D3.js** – Interactive charts for financial summaries and budget comparisons
-- **Element CSS** – Base styling
+- **Tailwind CSS** – Base styling
 - **DaisyUI** – Component library built on Tailwind
 - **React Icons** – Icon support
 - **Axios** – HTTP client for API requests
