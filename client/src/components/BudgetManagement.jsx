@@ -165,6 +165,8 @@ const BudgetManagement = () => {
 					isUpdate={summary}
 					summary={summary}
 					setRefreshBudget={setRefreshBudget}
+					selectedMonth={selectedMonth}
+					setSelectedMonth={setSelectedMonth}
 				/>
 			)}
 		</div>

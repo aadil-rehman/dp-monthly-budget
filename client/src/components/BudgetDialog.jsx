@@ -2,14 +2,21 @@ import { useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 
-const BudgetDialog = ({ closeModal, isUpdate, summary, setRefreshBudget }) => {
-	const [selectedMonth, setSelectedMonth] = useState(() => {
-		const now = new Date();
-		return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
-			2,
-			"0"
-		)}`;
-	});
+const BudgetDialog = ({
+	closeModal,
+	isUpdate,
+	summary,
+	setRefreshBudget,
+	selectedMonth,
+	setSelectedMonth,
+}) => {
+	// const [selectedMonth, setSelectedMonth] = useState(() => {
+	// 	const now = new Date();
+	// 	return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+	// 		2,
+	// 		"0"
+	// 	)}`;
+	// });
 	const [budgetAmount, setBudgetAmount] = useState(summary?.budgetAmount || "");
 	const [actualExpense, setActualExpense] = useState(
 		summary?.actualExpense || ""
