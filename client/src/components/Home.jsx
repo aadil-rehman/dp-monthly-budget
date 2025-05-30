@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-	return (
-		<div>
-			<h1>Hello</h1>
-		</div>
-	);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		navigate("/dashboard");
+	}, [navigate]);
+
+	return null; // or a loading spinner if you prefer
 };
 
 export default Home;

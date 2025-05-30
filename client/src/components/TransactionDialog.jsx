@@ -7,7 +7,6 @@ const TransactionDialog = ({
 	formData,
 	setFormData,
 	closeModal,
-	setTransactions,
 	setRefreshTransaction,
 }) => {
 	const handleSubmit = async (e) => {
