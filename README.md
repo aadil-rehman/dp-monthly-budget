@@ -115,10 +115,9 @@ npm run dev
 
 ## 🚀 Hosted URLs
 
-- **Frontend (Vercel):** [https://budget-tracker.vercel.app](https://budget-tracker.vercel.app)
+- **Frontend (Vercel):** [https://dp-monthly-budget.vercel.app/](https://dp-monthly-budget.vercel.app/)
 - **Backend API (Render):** [https://dp-monthly-budget.onrender.com](https://dp-monthly-budget.onrender.com)
-- **GitHub Repo – Frontend:** [https://github.com/yourusername/budget-tracker-frontend](https://github.com/yourusername/budget-tracker-frontend)
-- **GitHub Repo – Backend:** [https://github.com/yourusername/budget-tracker-backend](https://github.com/yourusername/budget-tracker-backend)
+- **GitHub Repo:** [https://github.com/aadil-rehman/dp-monthly-budget](https://github.com/aadil-rehman/dp-monthly-budget)
 
 ## LLM Usage Acknowledgment
 
