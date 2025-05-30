@@ -27,7 +27,7 @@ app.use("/budget", budgetRouter);
 mongoDBConnect()
 	.then(() => {
 		console.log("Database connection established");
-		app.listen(PORT, () => {
+		app.listen(PORT, "0.0.0.0", () => {
 			console.log(`Server listening on Port ${PORT}....`);
 		});
 	})
