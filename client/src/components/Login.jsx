@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
 	const [emailId, setEmailId] = useState("aadil@gmail.com");
@@ -14,7 +15,7 @@ const Login = () => {
 		setLoading(true);
 		try {
 			const res = await axios.post(
-				"http://localhost:5000/login",
+				BASE_URL + "/login",
 				{ emailId, password },
 				{ withCredentials: true }
 			);
