@@ -9,12 +9,12 @@ const Login = () => {
 	const [emailId, setEmailId] = useState("aadil@gmail.com");
 	const [password, setPassword] = useState("Aadil@123");
 	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const user = useSelector((store) => store.user);
 
 	const handleLogin = async () => {
 		if (!emailId || !password) return;
-		if (user) return;
 		setLoading(true);
 		try {
 			const res = await axios.post(
@@ -25,7 +25,7 @@ const Login = () => {
 
 			if (res.data.status === 1) {
 				dispatch(addUser(res?.data?.data));
-				window.location.href = "/dashboard";
+				navigate("/dashboard");
 			}
 		} catch (error) {
 			console.error("Login error:", error);
