@@ -109,16 +109,52 @@ transactionRouter.delete(
 
 transactionRouter.get("/all", userAuth, async (req, res) => {
 	try {
-		const loggedinUser = req.user;
+		const userId = req.user._id;
 
-		const allTransactionsByUser = await Transaction.find({
-			userId: loggedinUser._id,
-		});
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 5;
+		const skip = (page - 1) * limit;
+
+		// Filters
+		const { fromDate, toDate, category, minAmount, maxAmount } = req.query;
+		const filter = { userId };
+
+		// Date filter
+		if (fromDate || toDate) {
+			filter.date = {};
+			if (fromDate) filter.date.$gte = new Date(fromDate);
+			if (toDate) filter.date.$lte = new Date(toDate);
+		}
+
+		// Category filter
+		if (category) {
+			filter.category = category;
+		}
+
+		// Amount filter
+		if (minAmount || maxAmount) {
+			filter.amount = {};
+			if (minAmount) filter.amount.$gte = parseFloat(minAmount);
+			if (maxAmount) filter.amount.$lte = parseFloat(maxAmount);
+		}
+
+		const total = await Transaction.countDocuments(filter);
+
+		const transactions = await Transaction.find(filter)
+			.sort({ date: -1 })
+			.skip(skip)
+			.limit(limit);
 
 		res.json({
 			status: 1,
 			message: "Transactions fetched successfully",
-			data: allTransactionsByUser,
+			data: transactions,
+			pagination: {
+				total,
+				page,
+				limit,
+				totalPages: Math.ceil(total / limit),
+			},
 		});
 	} catch (err) {
 		res.status(400).json({ error: err.message });
@@ -159,6 +195,14 @@ transactionRouter.get("/summary", userAuth, async (req, res) => {
 			.reduce((sum, t) => (sum = sum + t.amount), 0);
 
 		const balance = totalIncome - totalExpense;
+
+		if (!totalIncome && !totalExpense) {
+			return res.json({
+				status: 1,
+				message: "No data available for this month",
+				summary: null,
+			});
+		}
 
 		res.json({
 			status: 1,

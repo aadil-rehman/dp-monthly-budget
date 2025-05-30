@@ -13,7 +13,7 @@ budgetRouter.get("/fetch", userAuth, async (req, res) => {
 		const budget = await Budget.findOne({ userId: loggedinUser._id, month });
 
 		if (!budget) {
-			throw new Error("No budget Found");
+			return res.json({ status: 1, message: "No budget Found", data: null });
 		}
 
 		res.json({
@@ -29,12 +29,12 @@ budgetRouter.get("/fetch", userAuth, async (req, res) => {
 //set or update budget for a month
 budgetRouter.post("/set", userAuth, async (req, res) => {
 	const loggedinUser = req.user;
-	const { month, amount } = req.body;
+	const { month, budgetAmount, actualExpense } = req.body;
 
 	try {
 		const updatedBudget = await Budget.findOneAndUpdate(
 			{ userId: loggedinUser._id, month },
-			{ amount },
+			{ budgetAmount, actualExpense },
 			{ upsert: true, new: true, runValidators: true }
 		);
 

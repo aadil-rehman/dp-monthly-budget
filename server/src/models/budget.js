@@ -10,7 +10,11 @@ const budgetSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	amount: {
+	budgetAmount: {
+		type: Number,
+		required: true,
+	},
+	actualExpense: {
 		type: Number,
 		required: true,
 	},

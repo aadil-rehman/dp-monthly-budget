@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+const userAuth = require("../middleware/auth");
 
 const userRouter = express.Router();
 
@@ -60,10 +61,25 @@ userRouter.post("/login", async (req, res) => {
 	}
 });
 
+userRouter.get("/profile", userAuth, (req, res) => {
+	try {
+		const loggedinUser = req.user;
+
+		res.json({
+			status: 1,
+			message: "User feteched successfully",
+			data: loggedinUser,
+		});
+	} catch (err) {
+		res.status(400).json({ error: err.message });
+	}
+});
+
 userRouter.post("/logout", (req, res) => {
 	try {
-		res.cookie("token", "", { expires: new Date(Date.now()) });
-		res.json({ status: 1, message: "Logout successfully" });
+		res
+			.cookie("token", null, { expires: new Date(Date.now()) })
+			.json({ status: 1, message: "Logout successfully" });
 	} catch (err) {
 		res.status(400).json({ error: err.message });
 	}
